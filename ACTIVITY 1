@@ -1,0 +1,41 @@
+/* SCHLOBOHM, RACQUEL D.
+BSIT-3B */
+
+public class Operations {
+    public static void main(String[] args) {
+
+        int num1 = 100;
+        int num2 = 50;
+
+        int num_sum = num1 + num2;
+        int num_diff = num1 - num2;
+        int num_prod = num1 * num2;
+        int num_div = num1 / num2;
+
+        System.out.println("Sum: " + num_sum);
+        System.out.println("Difference: " + num_diff);
+        System.out.println("Product: " + num_prod);
+        System.out.println("Quotient: " + num_div);
+        
+       
+if (num_prod > 1000) {
+      System.out.println("The product is greater than 1000.");
+  }
+
+else if (num_sum == 150) {
+     System.out.println("The sum is exactly 150.");
+        } 
+
+else if (num_diff < 50) {
+    System.out.println("The difference is less than 50.");
+        } 
+
+else if (num_div == 2) {
+     System.out.println("The quotient is exactly 2.");
+        } 
+
+else {
+      System.out.println("None of the specific conditions were met!");
+        }}}
+    
+

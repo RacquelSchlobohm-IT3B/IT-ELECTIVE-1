@@ -1,10 +1,12 @@
 /* SCHLOBOHM, RACQUEL D.
+   ARANZADO, RACHEL L.
+   DEL CORRO, PRINCESS G.
 BSIT-3B */
 
 public class Operations {
     public static void main(String[] args) {
 
-        int num1 = 100;
+        int num1 = 200;
         int num2 = 50;
 
         int num_sum = num1 + num2;
@@ -18,20 +20,20 @@ public class Operations {
         System.out.println("Quotient: " + num_div);
         
        
-if (num_prod > 1000) {
-      System.out.println("The product is greater than 1000.");
+if (num_prod > 2000) {
+      System.out.println("The 10,000 is greater than 2000.");
   }
 
-else if (num_sum == 150) {
-     System.out.println("The sum is exactly 150.");
+else if (num_sum == 250) {
+     System.out.println("The 250 is exactly 250.");
         } 
 
-else if (num_diff < 50) {
-    System.out.println("The difference is less than 50.");
+else if (num_diff < 200) {
+    System.out.println("The 200 is less than 150.");
         } 
 
-else if (num_div == 2) {
-     System.out.println("The quotient is exactly 2.");
+else if (num_div == 4) {
+     System.out.println("The quotient is exactly 4.");
         } 
 
 else {

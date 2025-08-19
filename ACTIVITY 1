@@ -29,7 +29,7 @@ else if (num_sum == 250) {
         } 
 
 else if (num_diff < 200) {
-    System.out.println("The 200 is less than 150.");
+    System.out.println("The 150 is less than 200.");
         } 
 
 else if (num_div == 4) {

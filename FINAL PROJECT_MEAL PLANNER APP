@@ -1,0 +1,506 @@
+(build.gradle.kts)
+
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace = "com.example.mealplannerapp"
+    compileSdk {
+        version = release(36)
+    }
+
+    defaultConfig {
+        applicationId = "com.example.mealplannerapp"
+        minSdk = 21
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation("com.google.code.gson:gson:2.10.1")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+}
+
+
+
+(AndroidManifest.xml)
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.mealplannerapp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Meal Planner"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MealPlannerApp">
+
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
+
+
+
+
+
+
+
+(colors.xml
+
+<resources>
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="orange_500">#FF5722</color>
+    <color name="orange_light">#FFE0B2</color>
+    <color name="background">#FFF3E0</color>
+</resources>
+
+
+
+
+
+
+(themes.xml)
+
+<resources>
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+    <color name="black">#FFFFFF</color>
+    <color name="white">#000000</color>
+    <color name="orange_500">#FF5722</color>
+    <color name="orange_light">#FFE0B2</color>
+    <color name="background">#FFF3E0</color>
+</resources>
+
+
+
+
+
+
+
+(activity_main.xml)
+
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="120dp" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🍽️ Meal Planner"
+            android:textColor="@color/orange_500"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="30dp" />
+
+        <EditText
+            android:id="@+id/etMealName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter meal name"
+            android:padding="14dp"
+            android:background="@drawable/edit_text_bg"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/etMealTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter meal time (Breakfast, Lunch...)"
+            android:padding="14dp"
+            android:background="@drawable/edit_text_bg"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnAddMeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Meal"
+            android:backgroundTint="@color/orange_500"
+            android:textColor="@color/white"
+            android:padding="14dp"
+            android:layout_marginBottom="30dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Meals"
+            android:textColor="@color/orange_500"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search meals..."
+            android:padding="12dp"
+            android:background="@drawable/edit_text_bg"
+            android:layout_marginBottom="16dp"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:inputType="text" />
+
+
+        <LinearLayout
+            android:id="@+id/mealListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+</ScrollView>
+
+
+
+
+
+
+
+(meal_item.xml)
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@drawable/meal_item_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvMealText"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Sample Meal"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"/>
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:text="🗑️"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:textSize="18sp"/>
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+(edit_text_bg.xml)
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white"/>
+    <corners android:radius="14dp"/>
+    <stroke android:width="1dp" android:color="@color/orange_500"/>
+</shape>
+
+
+
+
+
+
+(MainActivity.java)
+
+package com.example.mealplannerapp;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText etMealName, etMealTime;
+    private Button btnAddMeal;
+    private LinearLayout mealListLayout;
+
+    private EditText etSearch;
+
+    private List<String> mealList = new ArrayList<>();
+    private SharedPreferences prefs;
+    private Gson gson = new Gson();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        etMealName = findViewById(R.id.etMealName);
+        etMealTime = findViewById(R.id.etMealTime);
+        btnAddMeal = findViewById(R.id.btnAddMeal);
+        mealListLayout = findViewById(R.id.mealListLayout);
+
+        etSearch = findViewById(R.id.etSearch);
+        etSearch.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterMeals(s.toString()); // call filter method
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
+
+
+
+        prefs = getSharedPreferences("MEAL_PREFS", MODE_PRIVATE);
+        loadMeals();
+
+        btnAddMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addMeal();
+            }
+        });
+    }
+
+    private void addMeal() {
+        String name = etMealName.getText().toString().trim();
+        String time = etMealTime.getText().toString().trim();
+
+        if (name.isEmpty() || time.isEmpty()) {
+            Toast.makeText(this, "Please enter meal name and time", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+
+        String mealEntry = time + ": " + name;
+        mealList.add(mealEntry);
+        saveMeals();
+        addMealView(mealEntry);
+
+        etMealName.setText("");
+        etMealTime.setText("");
+    }
+
+    private void addMealView(String mealEntry) {
+        // Horizontal layout for Text + Delete button
+        LinearLayout container = new LinearLayout(this);
+        container.setOrientation(LinearLayout.HORIZONTAL);
+        container.setPadding(12, 12, 12, 12);
+        container.setBackgroundResource(R.drawable.meal_item_bg);
+        LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        containerParams.setMargins(0, 0, 0, 12);
+        container.setLayoutParams(containerParams);
+
+        // TextView for meal
+        TextView mealText = new TextView(this);
+        mealText.setText(mealEntry);
+        mealText.setTextSize(18);
+        mealText.setTextColor(getResources().getColor(android.R.color.black));
+        mealText.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+
+        // Delete button
+        Button deleteBtn = new Button(this);
+        deleteBtn.setText("🗑️");
+        deleteBtn.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        deleteBtn.setTextSize(18);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mealListLayout.removeView(container);
+                mealList.remove(mealEntry);
+                saveMeals();
+            }
+        });
+
+
+
+        // Long-press to edit
+        container.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showEditDialog(mealEntry, mealText);
+                return true;
+            }
+        });
+
+        container.addView(mealText);
+        container.addView(deleteBtn);
+
+        mealListLayout.addView(container);
+    }
+
+    private void showEditDialog(String oldMeal, TextView mealText) {
+        // Split oldMeal into time and name
+        String[] parts = oldMeal.split(": ");
+        String oldTime = parts[0];
+        String oldName = parts.length > 1 ? parts[1] : "";
+
+        // Create dialog layout
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(24, 24, 24, 24);
+
+        EditText etName = new EditText(this);
+        etName.setText(oldName);
+        etName.setHint("Meal Name");
+        layout.addView(etName);
+
+        EditText etTime = new EditText(this);
+        etTime.setText(oldTime);
+        etTime.setHint("Meal Time");
+        layout.addView(etTime);
+
+        // Build dialog
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Edit Meal")
+                .setView(layout)
+                .setPositiveButton("Save", (dialog, which) -> {
+                    String newName = etName.getText().toString().trim();
+                    String newTime = etTime.getText().toString().trim();
+
+                    if (!newName.isEmpty() && !newTime.isEmpty()) {
+                        String newMeal = newTime + ": " + newName;
+                        // Update TextView and list
+                        mealText.setText(newMeal);
+                        int index = mealList.indexOf(oldMeal);
+                        if (index != -1) {
+                            mealList.set(index, newMeal);
+                        }
+                        saveMeals();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void filterMeals(String query) {
+        mealListLayout.removeAllViews();
+
+        for (String meal : mealList) {
+            if (meal.toLowerCase().contains(query.toLowerCase())) {
+                addMealView(meal);
+            }
+        }
+    }
+
+
+    private void saveMeals() {
+        String json = gson.toJson(mealList);
+        prefs.edit().putString("MEALS_KEY", json).apply();
+    }
+
+    private void loadMeals() {
+        String json = prefs.getString("MEALS_KEY", null);
+        if (json != null) {
+            Type type = new TypeToken<List<String>>(){}.getType();
+            mealList = gson.fromJson(json, type);
+
+            for (String mealEntry : mealList) {
+                addMealView(mealEntry);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+(meal_item_bg.xml)
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFE0B2"/>
+    <corners android:radius="12dp"/>
+</shape>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
